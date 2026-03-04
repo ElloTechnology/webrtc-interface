@@ -44,6 +44,8 @@ class RTCDataChannelMessage {
   late dynamic _data;
   late bool _isBinary;
 
+  Map<String, dynamic>? pipelineMeta;
+
   /// Tells whether this message contains binary.
   /// If this is false, it's a text message.
   bool get isBinary => _isBinary;
@@ -99,7 +101,12 @@ abstract class RTCDataChannel {
   /// for the [message] parameter.
   /// To send a binary message, pass a binary [RTCDataChannelMessage]
   /// constructed with [RTCDataChannelMessage.fromBinary]
-  Future<void> send(RTCDataChannelMessage message);
+  ///
+  /// Synchronous fire-and-forget: data is handed to the native WebRTC layer
+  /// without waiting for a result. The previous Future<void> return forced a
+  /// method-channel round-trip whose null reply cost ~28 main-thread
+  /// dispatches/s on low-end devices.
+  void send(RTCDataChannelMessage message);
 
   Future<void> close();
 }
