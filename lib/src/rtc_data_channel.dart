@@ -44,8 +44,6 @@ class RTCDataChannelMessage {
   late dynamic _data;
   late bool _isBinary;
 
-  Map<String, dynamic>? pipelineMeta;
-
   /// Tells whether this message contains binary.
   /// If this is false, it's a text message.
   bool get isBinary => _isBinary;
